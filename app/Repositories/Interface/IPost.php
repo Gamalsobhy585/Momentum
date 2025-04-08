@@ -11,4 +11,5 @@ interface IPost
     public function restore($model);
     public function getById($id);
     public function getTotalPosts();
+    public function getDeletedPosts($limit);
 }

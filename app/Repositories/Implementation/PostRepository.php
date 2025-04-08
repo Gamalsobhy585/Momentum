@@ -7,9 +7,19 @@ use App\Repositories\Interface\IPost;
 
 class PostRepository implements IPost
 {
-    public function get($query, $limit, $sort_by = null, $sort_direction = 'desc')
+    public function get($query, $limit, $sort_by = 'id', $sort_direction = 'asc')
     {
-     return Post::where('user_id', auth()->user()->id)->paginate($limit);
+        $posts = Post::where('user_id', auth()->user()->id)
+            ->when($query, function ($q) use ($query) {
+                return $q->where(function ($q) use ($query) {
+                    $q->where('title', 'like', "%{$query}%")
+                      ->orWhere('content', 'like', "%{$query}%");
+                });
+            })
+            ->orderBy($sort_by, $sort_direction)
+            ->paginate($limit);
+
+        return $posts;
     }
 
     public function save($model)
@@ -32,11 +42,18 @@ class PostRepository implements IPost
     }
     public function getById($id)
     {
-     return Post::find($id);
+        return Post::where('user_id', auth()->user()->id)->find($id);
     }
+
     public function getTotalPosts()
     {
      return Post::where('user_id', auth()->user()->id)->count();
+    }
+    public function getDeletedPosts($limit)
+    {
+        return Post::onlyTrashed()
+            ->where('user_id', auth()->user()->id)
+            ->paginate($limit);
     }
 
 
