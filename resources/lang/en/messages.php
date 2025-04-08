@@ -36,8 +36,7 @@ return [
         'title_max' => 'The title may not be greater than 255 characters.',
         'content_required' => 'The content field is required.',
         'content_string' => 'The content must be a string.',
-        'user_id_required' => 'The user ID is required.',
-        'user_id_exists' => 'The selected user ID is invalid.',
+    
     ],
     "post" => [
         "get_all" => "Posts retrieved successfully",
@@ -53,6 +52,16 @@ return [
         "restored" => "Post restored successfully",
         "restore_failed" => "Failed to restore post",
         "get_all_deleted"=> "Deleted posts retrieved successfully",
+        "no_ids_provided" => "No IDs provided for bulk delete",
+        "bulk_deleted" => "Posts deleted successfully",
+        "bulk_delete_failed" => "Failed to delete posts",
+        "bulk_restored" => "Posts restored successfully",
+        "bulk_restore_failed" => "Failed to restore posts",
+        "bulk_force_delete_failed" => "Failed to force delete posts",
+        "partial_bulk_deleted" => "Some posts were not deleted successfully",
+        "partial_bulk_restored" => "Some posts were not restored successfully",
+        "partial_bulk_force_deleted" => "Some posts were not force deleted successfully",
+        "bulk_force_deleted" => "Posts force deleted successfully",
     ]
     
 ];

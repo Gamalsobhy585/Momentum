@@ -17,7 +17,6 @@ class StorePostRequest extends FormRequest
         [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'user_id' => 'required|exists:users,id',
 
         ];
     }
@@ -29,8 +28,7 @@ class StorePostRequest extends FormRequest
             'title.max' => __('messages.validation.title_max'),
             'content.required' => __('messages.validation.content_required'),
             'content.string' => __('messages.validation.content_string'),
-            'user_id.required' => __('messages.validation.user_id_required'),
-            'user_id.exists' => __('messages.validation.user_id_exists'),
+ 
         ];
     }
     

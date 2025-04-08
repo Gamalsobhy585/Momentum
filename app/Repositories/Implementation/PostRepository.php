@@ -32,9 +32,11 @@ class PostRepository implements IPost
      return $model->delete(); 
     }
 
-    public function update($model)
+ 
+    public function update($model, $data)
     {
-     return $model->save();
+        $model->fill($data);
+        return $model->save();
     }
     public function restore($model)
     {
@@ -66,6 +68,78 @@ class PostRepository implements IPost
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    public function forceDelete($model)
+    {
+        return $model->forceDelete();
+    }
+    public function bulkDelete($ids)
+    {
+        $authorizedIds = Post::whereIn('id', $ids)
+            ->where('user_id', auth()->user()->id)
+            ->pluck('id')
+            ->toArray();
+        
+        $unauthorizedIds = array_diff($ids, $authorizedIds);
+        
+        if (empty($authorizedIds)) {
+            throw new \Exception('No authorized posts found for bulk delete');
+        }
+        
+        $deletedCount = Post::whereIn('id', $authorizedIds)->delete();
+        
+        return [
+            'deleted_count' => $deletedCount,
+            'authorized_ids' => $authorizedIds,
+            'unauthorized_ids' => $unauthorizedIds
+        ];
+    }
+    
+    public function bulkRestore($ids)
+    {
+        $authorizedIds = Post::onlyTrashed()
+            ->whereIn('id', $ids)
+            ->where('user_id', auth()->user()->id)
+            ->pluck('id')
+            ->toArray();
+        
+        $unauthorizedIds = array_diff($ids, $authorizedIds);
+        
+        $result = Post::onlyTrashed()
+            ->whereIn('id', $authorizedIds)
+            ->restore();
+        
+        return [
+            'success' => $result,
+            'authorized_ids' => $authorizedIds,
+            'unauthorized_ids' => $unauthorizedIds
+        ];
+    }
+    
+    public function bulkForceDelete($ids)
+    {
+        $query = Post::onlyTrashed()->whereIn('id', $ids);
+        
+        $authorizedIds = $query->where('user_id', auth()->id())
+                             ->pluck('id')
+                             ->toArray();
+        
+        $unauthorizedIds = array_diff($ids, $authorizedIds);
+        
+        $anyTrashedExist = Post::onlyTrashed()->whereIn('id', $ids)->exists();
+        
+        $result = false;
+        if (!empty($authorizedIds)) {
+            $result = $query->whereIn('id', $authorizedIds)->forceDelete();
+        }
+        
+        return [
+            'success' => $result,
+            'authorized_ids' => $authorizedIds,
+            'unauthorized_ids' => $unauthorizedIds,
+            'any_trashed_exist' => $anyTrashedExist
+        ];
     }
 
 
