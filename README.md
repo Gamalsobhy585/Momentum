@@ -21,6 +21,9 @@ The seeded user comes with 10 pre-populated posts to make testing easier. Altern
 Complete API documentation is available via Postman:
 [Momentum Project Postman Collection](https://www.postman.com/martian-shadow-736975/momentum-project)
 
+Alternatively, you can access the Postman collection from this Google Drive link:
+[Google Drive - Postman Collection](https://drive.google.com/drive/folders/1y7doejn-Ugq7EphsjLld06-0HqWTggyx?usp=sharing)
+
 For each endpoint, you'll find detailed responses showing URLs, different use cases, and request bodies when needed.
 
 ## Bonus Features
