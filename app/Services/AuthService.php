@@ -1,25 +1,19 @@
 <?php
 
-namespace app\Services;
+namespace App\Services;
 
-
-use app\Repositories\Interface\IUser;
-
-use app\Traits\ResponseTrait;
-use app\Http\Resources\UserResource;
-use app\Services\Interface\IAuthService;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Interface\IUser;
+use App\Http\Resources\UserResource;
+use App\Services\Interface\IAuthService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
 class AuthService implements IAuthService
 {
-    use  ResponseTrait;
-
     private IUser $userRepo;
 
-    public function __construct(  IUser $user)
+    public function __construct(IUser $user)
     {
         $this->userRepo = $user;
     }
@@ -27,6 +21,10 @@ class AuthService implements IAuthService
     public function register($request)
     {
         try {
+            if ($this->userRepo->getByEmail($request->email)) {
+                throw new \Exception(__('messages.register.email_exists'), 422);
+            }
+            
             DB::beginTransaction();
           
             $user = [
@@ -39,8 +37,8 @@ class AuthService implements IAuthService
             DB::commit();
             return $storedUser;
         } catch (\Exception $e) {
-            echo $e->getMessage();
             DB::rollBack();
+            throw $e;
         }
     }
 
@@ -48,29 +46,21 @@ class AuthService implements IAuthService
     {
         $user = $this->userRepo->getByEmail($request->email);
         if (!$user) {
-            $this->returnError(__('messages.login.invalid_credentials'), 401);
+            throw new \Exception(__('messages.login.invalid_credentials'), 401);
         }
 
         if (!Hash::check($request->password, $user->password)) {
-            $this->returnError(__('messages.login.invalid_credentials'), 401);
+            throw new \Exception(__('messages.login.invalid_credentials'), 401);
         }
-        $this->userRepo->update($user);
 
         $token = $user->createToken('default_token');
         $user->token = $token->plainTextToken;
 
-       
-
-        return $this->returnData(
-            __('messages.login.success'),
-            200,
-            [
-                'token' => $user->token,
-                'user_data' => new UserResource($user),
-            ]);
+        return [
+            'token' => $user->token,
+            'user_data' => new UserResource($user),
+        ];
     }
-
-
 
     public function logout($request)
     {
@@ -82,24 +72,31 @@ class AuthService implements IAuthService
         return false;
     }
 
- 
     public function updateoldPassword($email, $oldPassword, $newPassword)
     {
         $user = $this->userRepo->getByEmail($email);
-        if (!$user)
-            $this->returnError(__('messages.renew.user_not_found'), 404);
+        if (!$user) {
+            throw new \Exception(__('messages.renew.user_not_found'), 404);
+        }
 
-        if (!Hash::check($oldPassword, $user->password))
-            $this->returnError(__('messages.renew.failed'), 401);
+        if (!Hash::check($oldPassword, $user->password)) {
+            throw new \Exception(__('messages.renew.failed'), 401);
+        }
 
         $user->password = Hash::make($newPassword);
         $user->save();
 
-        return $this->success(__('messages.renew.success'), 200);
+        return true;
     }
 
-
-
+    public function getUserInfo($request)
+    {
+        $user = $request->user()->loadCount('posts');
+        if (!$user) {
+            throw new \Exception(__('messages.user.not_found'), 404);
+        }
+        return new UserResource($user);
+    }
 }
 
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\Repositories\Implementation;
+namespace App\Repositories\Implementation;
 
-use app\Models\Post;
-use app\Repositories\Interface\IPost;
+use App\Models\Post;
+use App\Repositories\Interface\IPost;
 
 class PostRepository implements IPost
 {

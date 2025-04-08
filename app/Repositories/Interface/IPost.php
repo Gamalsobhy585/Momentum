@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Repositories\Interface;
+namespace App\Repositories\Interface;
 
 interface IPost
 {

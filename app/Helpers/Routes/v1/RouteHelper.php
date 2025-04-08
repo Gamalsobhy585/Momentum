@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Helpers\Routes\v1;
+namespace App\Helpers\Routes\v1;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

@@ -1,8 +1,8 @@
 <?php
 
 
-use app\Http\Middleware\Cors;
-use app\Http\Middleware\Lang;
+use App\Http\Middleware\Cors;
+use App\Http\Middleware\Lang;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,8 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withCommands([
-        __DIR__ . '/../app/Console/Commands/GenerateApiScaffold',
-        __DIR__ . '/../app/Console/Commands/StartProject',
+        __DIR__ . '/../App/Console/Commands/GenerateApiScaffold',
+        __DIR__ . '/../App/Console/Commands/StartProject',
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Throwable $e, Request $request) {

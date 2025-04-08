@@ -12,10 +12,10 @@ class UserResource extends JsonResource
         $data = [
             'name' => $this->name,
             'email' => $this->email,
+            'posts_count' => $this->posts_count ?? $this->posts()->count(),
+
           
         ];
-
-      
 
         return $data;
     }

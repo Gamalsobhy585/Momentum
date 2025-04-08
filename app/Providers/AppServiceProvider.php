@@ -1,16 +1,16 @@
 <?php
 
-namespace app\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use app\Repositories\Interface\IPost;
-use app\Repositories\Implementation\PostRepository;
-use app\Repositories\Implementation\UserRepository;
-use app\Repositories\Interface\IUser;
-use app\Services\Interface\IAuthService;
-use app\Services\Interface\IPostService;
-use app\Services\AuthService;
-use app\Services\PostService;
+use App\Repositories\Interface\IPost;
+use App\Repositories\Implementation\PostRepository;
+use App\Repositories\Implementation\UserRepository;
+use App\Repositories\Interface\IUser;
+use App\Services\Interface\IAuthService;
+use App\Services\Interface\IPostService;
+use App\Services\AuthService;
+use App\Services\PostService;
 
 class AppServiceProvider extends ServiceProvider
 {

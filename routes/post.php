@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\PostController;
+use App\Http\Controllers\PostController;
 
 
 Route::middleware('auth:sanctum')->group(function () 

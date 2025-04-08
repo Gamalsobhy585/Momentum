@@ -8,8 +8,6 @@ use App\Repositories\Interface\IUser;
 class UserRepository implements IUser
 {
 
- 
- 
     public function getByEmail($email)
     {
         return User::where('email', $email)->first();
@@ -23,6 +21,8 @@ class UserRepository implements IUser
     {
         return $model->save();
     }
+
+    
 
    
 

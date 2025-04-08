@@ -1,11 +1,11 @@
 <?php
 
-namespace app\Services;
+namespace App\Services;
 
-use app\Repositories\Interface\IPost;
-use app\Traits\ResponseTrait;
+use App\Repositories\Interface\IPost;
+use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
-use app\Http\Resources\PostResource;
+use App\Http\Resources\PostResource;
 
 class PostService
 {

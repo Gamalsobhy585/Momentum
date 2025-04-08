@@ -124,11 +124,11 @@ class GenerateFiles extends Command
         $content = $this->fileService->get($appServiceProviderPath);
     
         // Repository binding
-        $repoBinding = "\$this->app->bind(I{$name}::class, {$name}Repository::class);";
+        $repoBinding = "\$this->App->bind(I{$name}::class, {$name}Repository::class);";
         $repoUseStatements = "use App\Repositories\Interface\I{$name};\nuse App\Repositories\Implementation\\{$name}Repository;";
     
         // Service binding
-        $serviceBinding = "\$this->app->bind(I{$name}Service::class, {$name}Service::class);";
+        $serviceBinding = "\$this->App->bind(I{$name}Service::class, {$name}Service::class);";
         $serviceUseStatements = "use App\Services\Interface\I{$name}Service;\nuse App\Services\\{$name}Service;";
     
         // Add use statements if not exists

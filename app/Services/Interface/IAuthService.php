@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Services\Interface;
+namespace App\Services\Interface;
 
 interface IAuthService
 {
@@ -8,6 +8,7 @@ interface IAuthService
     public function login($request);
     public function logout($request);
     public function updateoldPassword($email, $oldPassword, $newPassword);
+    public function getUserInfo($request);
 
 
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
-use app\Http\Controllers\Controller;
-use app\Models\Post;
+use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
-use app\Http\Resources\PostResource;
-use app\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\PostCollection;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
