@@ -56,6 +56,19 @@ class PostRepository implements IPost
             ->paginate($limit);
     }
 
+    public function getDeletedById($id)
+    {
+        try {
+            return Post::onlyTrashed()
+                ->where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->first();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
 
 
 }

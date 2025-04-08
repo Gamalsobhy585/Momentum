@@ -12,4 +12,6 @@ interface IPost
     public function getById($id);
     public function getTotalPosts();
     public function getDeletedPosts($limit);
+    public function getDeletedById($id);
+
 }
