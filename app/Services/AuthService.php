@@ -7,6 +7,9 @@ use App\Http\Resources\UserResource;
 use App\Services\Interface\IAuthService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
 
 
 class AuthService implements IAuthService
@@ -91,12 +94,21 @@ class AuthService implements IAuthService
 
     public function getUserInfo($request)
     {
-        $user = $request->user()->loadCount('posts');
-        if (!$user) {
+        try {
+            $user = $this->userRepo->getUserInfo(); 
+            
+            $cacheKey = 'user:info:' . $user->id;
+            
+            return Cache::remember($cacheKey, now()->addHours(1), function() use ($user) {
+                return new UserResource($user);
+            });
+            
+        } catch (\Exception $e) {
+            Log::error('Failed to get user info: ' . $e->getMessage());
             throw new \Exception(__('messages.user.not_found'), 404);
         }
-        return new UserResource($user);
     }
+
 }
 
 

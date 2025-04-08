@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -49,5 +49,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+
+    protected static function booted()
+{
+    static::updated(function ($user) {
+        Cache::forget('user:info:' . $user->id);
+    });
+    
+    static::deleted(function ($user) {
+        Cache::forget('user:info:' . $user->id);
+    });
+}
+
     
 }

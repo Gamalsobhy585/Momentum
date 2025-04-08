@@ -22,6 +22,11 @@ class UserRepository implements IUser
         return $model->save();
     }
 
+    public function getUserInfo()
+    {
+        return auth()->user()->loadCount('posts'); 
+    }
+
     
 
    

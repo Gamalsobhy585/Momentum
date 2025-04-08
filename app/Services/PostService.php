@@ -6,7 +6,6 @@ use App\Repositories\Interface\IPost;
 use App\Services\Interface\IPostService;
 
 use Illuminate\Support\Facades\Log;
-use App\Http\Resources\PostResource;
 
 class PostService implements IPostService
 {
