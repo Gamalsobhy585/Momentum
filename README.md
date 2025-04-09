@@ -25,6 +25,7 @@ Alternatively, you can access the Postman collection from this Google Drive link
 [Google Drive - Postman Collection](https://drive.google.com/drive/folders/1y7doejn-Ugq7EphsjLld06-0HqWTggyx?usp=sharing)
 
 For each endpoint, you'll find detailed responses showing URLs, different use cases, and request bodies when needed.
+
 **Important Note:** base url is 127.0.0.1:8000/api
 
 ## Bonus Features
